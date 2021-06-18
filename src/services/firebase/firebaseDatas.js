@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 let user = null;
 let loading = true;
 
-async function signOut(){
+async function logOff(){
   await firebase.auth().signOut();
 }
 
@@ -32,4 +32,4 @@ const toEnter = async (email, password) =>{
   return data
 }
 
-export {signOut, toEnter}
+export {logOff, toEnter}

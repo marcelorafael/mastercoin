@@ -1,7 +1,7 @@
 import React, { useState, createContext, useEffect } from 'react';
 import firebase from '../services/firebase/firebaseConnection';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {signOut, toEnter} from '../services/firebase/firebaseDatas'
+import {logOff, toEnter} from '../services/firebase/firebaseDatas'
 
 export const AuthContext = createContext({});
 
@@ -61,8 +61,8 @@ function AuthProvider({ children }){
     }
 
 
-    async function logOff() {
-        signOut()
+    async function signOut() {
+        logOff()
         await AsyncStorage.clear()
         .then( () => {
             setUser(null);
@@ -71,7 +71,7 @@ function AuthProvider({ children }){
     }
 
     return(
-     <AuthContext.Provider value={{ signed: !!user , user, loading, signUp, signIn, logOff }}>
+     <AuthContext.Provider value={{ signed: !!user , user, loading, signUp, signIn, signOut }}>
          {children}
      </AuthContext.Provider>   
     );

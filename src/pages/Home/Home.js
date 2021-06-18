@@ -5,7 +5,7 @@ import { AuthContext } from '../../contexts/auth';
 
 const Home = () => {
 
-  const { user, logOff } = useContext(AuthContext)
+  const { user, signOut } = useContext(AuthContext)
   console.log(user)
   return (
     <View>
@@ -13,7 +13,7 @@ const Home = () => {
       <Text style={{color:'#000'}}>{user ? user.email : 'None'}</Text>
       <Button
         title="sair"
-        onPress={() => logOff()}
+        onPress={() => signOut()}
       />
     </View>
   );
