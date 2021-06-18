@@ -1,10 +1,23 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, { useContext } from 'react';
+import { View, Text, Button } from 'react-native';
 
-export default function Home() {
- return (
-   <View>
-       <Text>Home</Text>
-   </View>
+import { AuthContext } from '../../contexts/auth';
+
+const Home = () => {
+
+  const { user, logOff } = useContext(AuthContext)
+  console.log(user)
+  return (
+    <View>
+      <Text style={{color:'#000'}}>{user ? user.nome : 'None'}</Text>
+      <Text style={{color:'#000'}}>{user ? user.email : 'None'}</Text>
+      <Button
+        title="sair"
+        onPress={() => logOff()}
+      />
+    </View>
   );
 }
+
+const HomeMemo = React.memo(Home);
+export { HomeMemo as Home }

@@ -12,11 +12,10 @@ export default function SignIn() {
   const [indicator, setIndicator] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { signed } = useContext(AuthContext);
+  const { signed, signIn } = useContext(AuthContext);
 
   function handleLogin(){
-    console.log(user.nome);
-    console.log(user.uid);
+    signIn(email, password)
     setIndicator(false)
   }
 
@@ -54,16 +53,17 @@ export default function SignIn() {
           autoCapitalize="none"
           value={password}
           onChangeText={ (text) => setPassword(text) }
+          secureTextEntry={true}
           />
         </AreaInput>
 
       <SubmitButton onPress={handleLogin}>
-        <SubmitText>Acessar</SubmitText>
+        {indicator && (<SubmitText>Acessar</SubmitText>)}
+        {indicator === false &&(<ActivityIndicator color="#FFF" size={20} />)}
       </SubmitButton>
 
       <Link onPress={ () => navigation.navigate('SignUp')}>
-        {indicator && (<LinkText>Criar uma conta!</LinkText>)}
-        {indicator === false &&(<ActivityIndicator color="#FFF" size={20} />)}
+        <LinkText>Criar uma conta!</LinkText>
       </Link>
 
       </Container>
