@@ -1,7 +1,7 @@
 import React, { useState, createContext, useEffect } from 'react';
 import firebase from '../services/firebase/firebaseConnection';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {logOff, toEnter} from '../services/firebase/firebaseDatas'
+import {logOff, toEnter, register} from '../services/firebase/firebaseDatas'
 
 export const AuthContext = createContext({});
 
@@ -29,31 +29,15 @@ function AuthProvider({ children }){
         let data = await toEnter(email, password)
         setUser(data);
         storageUser(data);
-        // console.log(toEnter())
     }
     
     //Cadastrar usuario
     async function signUp(email, password, nome){
-        await firebase.auth().createUserWithEmailAndPassword(email,password)
-        .then(async (value)=>{
-            let uid = value.user.uid;
-            await firebase.database().ref('users').child(uid).set({
-                saldo: 0,
-                nome: nome
-            })
-            .then(()=>{
-                let data = {
-                    uid: uid,
-                    nome: nome,
-                    email: value.user.email,
-                };
-                setUser(data);
-                storageUser(data);
-            })
-        })
-        .catch((error)=> {
-            alert(error.code);
-        });
+        let data = await register(email, password, nome)
+        signOut();  
+        setUser(data);
+        // storageUser(data);
+        
     }
 
     async function storageUser(data){

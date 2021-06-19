@@ -21,8 +21,6 @@ const toEnter = async (email, password) =>{
             nome: snapshot.val().nome,
             email: value.user.email,
           };
-
-          // return data;
       })
   })
   .catch((error)=> {
@@ -32,4 +30,29 @@ const toEnter = async (email, password) =>{
   return data
 }
 
-export {logOff, toEnter}
+const register = async (email, password, nome) =>{
+  let data ={};
+  await firebase.auth().createUserWithEmailAndPassword(email,password)
+  .then(async (value)=>{
+      let uid = value.user.uid;
+      await firebase.database().ref('users').child(uid).set({
+          saldo: 0,
+          nome: nome
+      })
+      .then(()=>{
+          let data = {
+              uid: uid,
+              nome: nome,
+              email: value.user.email,
+          };
+      })
+  })
+  .catch((error)=> {
+      alert(error.code);
+  });
+
+  return data;
+}
+
+
+export {logOff, toEnter, register}
