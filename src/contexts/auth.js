@@ -34,10 +34,9 @@ function AuthProvider({ children }){
     //Cadastrar usuario
     async function signUp(email, password, nome){
         let data = await register(email, password, nome)
-        signOut();  
+        signOut()
         setUser(data);
-        // storageUser(data);
-        
+        setUser(null);        
     }
 
     async function storageUser(data){
@@ -50,7 +49,6 @@ function AuthProvider({ children }){
         await AsyncStorage.clear()
         .then( () => {
             setUser(null);
-            console.log(user)
         })
     }
 
