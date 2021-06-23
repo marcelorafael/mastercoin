@@ -7,15 +7,22 @@ import {
   LogOut,
   LogOutText
 } from './Profile.styles'
+import { Header } from '../../components/Header/Header'
+
+import { useNavigation } from '@react-navigation/native'
 
 import { AuthContext } from '../../contexts/auth'
 
 const Profile = () => {
+  const navigation = useNavigation()
   const { user, signOut } = useContext(AuthContext)
   return (
     <Container>
-      <Name>Profile</Name>
-      <NewLink>
+      <Header />
+      <Name>
+        {user && user.nome}
+      </Name>
+      <NewLink onPress={() => navigation.navigate('Registrar')}>
         <NewText>Registrar gastos.</NewText>
       </NewLink>
 
