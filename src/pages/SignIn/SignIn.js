@@ -1,10 +1,12 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Platform, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from '../../contexts/auth';
 
-import { Background, Container, Logo, AreaInput, Input, SubmitButton, 
-SubmitText, Link, LinkText} from './SignIn.styles';
+import {
+  Background, Container, Logo, AreaInput, Input, SubmitButton,
+  SubmitText, Link, LinkText
+} from './SignIn.styles';
 
 export default function SignIn() {
   const navigation = useNavigation();
@@ -14,8 +16,8 @@ export default function SignIn() {
   const [password, setPassword] = useState('');
   const { signed, signIn } = useContext(AuthContext);
 
-  function handleLogin(){
-    if(email === '' || password === '') {
+  function handleLogin() {
+    if (email === '' || password === '') {
       alert('Todos os campos devem ser preenchidos');
       return;
     }
@@ -25,52 +27,52 @@ export default function SignIn() {
 
   useEffect(() => {
     async function indicatorChange() {
-      if(signed) {
+      if (signed) {
         setIndicator(true)
       }
     }
     indicatorChange()
-  },[signed])
+  }, [signed])
 
- return (
-   <Background>
+  return (
+    <Background>
       <Container
-      behavior={Platform.OS === 'ios' ? 'padding' : ''}
-      enabled
+        behavior={Platform.OS === 'ios' ? 'padding' : ''}
+        enabled
       >
-        <Logo source={require('../../assets/Logo.png')}/>
-        
+        <Logo source={require('../../assets/Logo.png')} />
+
         <AreaInput>
           <Input
-          placeholder="Email"
-          autoCorrect={false}
-          autoCapitalize="none"
-          value={email}
-          onChangeText={ (text) => setEmail(text) }
+            placeholder="Email"
+            autoCorrect={false}
+            autoCapitalize="none"
+            value={email}
+            onChangeText={(text) => setEmail(text)}
           />
         </AreaInput>
 
         <AreaInput>
           <Input
-          placeholder="Senha"
-          autoCorrect={false}
-          autoCapitalize="none"
-          value={password}
-          onChangeText={ (text) => setPassword(text) }
-          secureTextEntry={true}
+            placeholder="Senha"
+            autoCorrect={false}
+            autoCapitalize="none"
+            value={password}
+            onChangeText={(text) => setPassword(text)}
+            secureTextEntry={true}
           />
         </AreaInput>
 
-      <SubmitButton onPress={handleLogin}>
-        {indicator && (<SubmitText>Acessar</SubmitText>)}
-        {indicator === false &&(<ActivityIndicator color="#FFF" size={20} />)}
-      </SubmitButton>
+        <SubmitButton onPress={handleLogin}>
+          {indicator && (<SubmitText>Acessar</SubmitText>)}
+          {indicator === false && (<ActivityIndicator color="#FFF" size={20} />)}
+        </SubmitButton>
 
-      <Link onPress={ () => navigation.navigate('SignUp')}>
-        <LinkText>Criar uma conta!</LinkText>
-      </Link>
+        <Link onPress={() => navigation.navigate('SignUp')}>
+          <LinkText>Criar uma conta!</LinkText>
+        </Link>
 
       </Container>
-   </Background>
+    </Background>
   );
 }

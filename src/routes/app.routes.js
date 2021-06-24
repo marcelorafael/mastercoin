@@ -13,21 +13,21 @@ function AppRoutes() {
     const { user } = useContext(AuthContext)
 
     if (user === null) {
-        <ActivityIndicator color="#FFF" size='large' /> 
+        <ActivityIndicator color="#FFF" size='large' />
     } else {
         return (
             <Drawer.Navigator
                 drawerStyle={{
-                    backgroundColor:'#171717',
+                    backgroundColor: '#171717',
                 }}
                 drawerContentOptions={{
-                    labelStyle:{
-                        fontWeight:'bold',
+                    labelStyle: {
+                        fontWeight: 'bold',
                     },
-                    activeTintColor:'#FFF',
-                    activeBackgroundColor:'#00B94A',
-                    inactiveBackgroundColor:"#000",
-                    inactiveTintColor:'#DDD',
+                    activeTintColor: '#FFF',
+                    activeBackgroundColor: '#00B94A',
+                    inactiveBackgroundColor: "#000",
+                    inactiveTintColor: '#DDD',
                     itemStyle: {
                         marginVertical: 5,
                     }
@@ -40,7 +40,7 @@ function AppRoutes() {
         );
     }
 
-    
+
 }
 
 export default AppRoutes;
