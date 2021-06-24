@@ -27,7 +27,7 @@ const Home = () => {
     <Background>
       <Header />
       <Container>
-        <Name>Marcelo</Name>
+        <Name>{user && user.nome}</Name>
         <Saldo>R$=123,00</Saldo>
       </Container>
 

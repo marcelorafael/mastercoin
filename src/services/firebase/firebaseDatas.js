@@ -5,54 +5,61 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 let user = null;
 let loading = true;
 
-async function logOff(){
+async function logOff() {
   await firebase.auth().signOut();
 }
 
-const toEnter = async (email, password) =>{
+const toEnter = async (email, password) => {
   let data = {}
-  await firebase.auth().signInWithEmailAndPassword(email,password)
-  .then(async (value)=>{
+  let audit = await firebase.auth().signInWithEmailAndPassword(email, password)
+    .then(async (value) => {
       let uid = value.user.uid;
       await firebase.database().ref('users').child(uid).once('value')
-      .then((snapshot)=>{
+        .then((snapshot) => {
           data = {
             uid: uid,
             nome: snapshot.val().nome,
             email: value.user.email,
           };
-      })
-  })
-  .catch((error)=> {
+        })
+    })
+    .catch((error) => {
       alert(error.code);
-  });
+    });
 
-  return data
+  if (!audit) {
+    return null
+  } else {
+    return data
+  }
 }
 
-const register = async (email, password, nome) =>{
-  let data ={};
-  await firebase.auth().createUserWithEmailAndPassword(email,password)
-  .then(async (value)=>{
+const register = async (email, password, nome) => {
+  let data = {};
+  await firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then(async (value) => {
       let uid = value.user.uid;
       await firebase.database().ref('users').child(uid).set({
-          saldo: 0,
-          nome: nome
+        saldo: 0,
+        nome: nome
       })
-      .then(()=>{
+        .then(() => {
           let data = {
-              uid: uid,
-              nome: nome,
-              email: value.user.email,
+            uid: uid,
+            nome: nome,
+            email: value.user.email,
           };
-      })
-  })
-  .catch((error)=> {
-      alert(error.code);
-  });
+        })
+    })
+    .catch((error) => {
+      if (error.code === 'auth/email-already-in-use') {
+        alert('E-mail já cadastrado!!!!');
+      }
+
+    });
 
   return data;
 }
 
 
-export {logOff, toEnter, register}
+export { logOff, toEnter, register }

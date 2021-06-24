@@ -15,6 +15,7 @@ export const TipoText = styled.Text`
 color: #FFF;
 font-size: 16px;
 font-style: italic;
+margin-left: 5px;
 `;
 
 export const IconView = styled.View`
@@ -25,6 +26,7 @@ padding-top: 3px;
 padding-left: 8px;
 padding-right: 8px;
 border-radius: 5px;
+align-items: center;
 `;
 
 export const ValorText = styled.Text`

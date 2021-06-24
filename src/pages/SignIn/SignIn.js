@@ -15,6 +15,10 @@ export default function SignIn() {
   const { signed, signIn } = useContext(AuthContext);
 
   function handleLogin(){
+    if(email === '' || password === '') {
+      alert('Todos os campos devem ser preenchidos');
+      return;
+    }
     signIn(email, password)
     setIndicator(false)
   }

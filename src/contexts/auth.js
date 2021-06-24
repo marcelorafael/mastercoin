@@ -27,8 +27,15 @@ function AuthProvider({ children }){
     //Funcao para logar o usario
     const signIn = async (email, password) =>{
         let data = await toEnter(email, password)
-        setUser(data);
-        storageUser(data);
+            if(!data){
+                signOut()
+                setUser(null);
+                return;
+            }
+
+            setUser(data);
+            storageUser(data);
+            
     }
     
     //Cadastrar usuario
