@@ -1,6 +1,7 @@
 import React, { useState, createContext, useEffect } from 'react';
 import firebase from '../firebase/firebaseConnection'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { format } from 'date-fns'
 
 let user = null;
 let loading = true;
@@ -85,5 +86,25 @@ const register = async (email, password, nome) => {
   return data;
 }
 
+const movimetation = async (usuario, tipo, valor) => {
+    let uid = usuario.uid;
+    let key = await firebase.database().ref('historico').child(uid).push().key;
 
-export { logOff, toEnter, register }
+    await firebase.database().ref('historico').child(uid).child(key).set({
+      tipo: tipo,
+      valor: parseFloat(valor),
+      date: format(new Date(), 'dd/MM/yy')
+    })
+
+    let user = await firebase.database().ref('historico').child(uid);
+    await user.once('value').then((snapshot) => {
+      let saldo = parseFloat(snapshot.val().saldo);
+
+      tipo === 'despesa' ? saldo -= parseFloat(valor) : saldo += parseFloat(valor);
+
+      user.child('saldo').set(saldo);
+    });
+}
+
+
+export { logOff, toEnter, register, movimetation }

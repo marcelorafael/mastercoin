@@ -2,8 +2,8 @@ import React, { useState, useContext } from 'react'
 import { SafeAreaView, Keyboard, TouchableWithoutFeedback, Alert } from 'react-native'
 import { Header } from '../../components/Header/Header'
 import Picker from '../../components/Picker'
-import firebase from '../../services/firebase/firebaseConnection'
-import { format } from 'date-fns'
+import { movimetation } from '../../services/firebase/firebaseDatas'
+
 import { AuthContext } from '../../contexts/auth'
 import { useNavigation } from '@react-navigation/native'
 import {
@@ -43,27 +43,11 @@ const New = () => {
   }
 
   const handleApp = async () => {
-    setValor('')
+    setValor('');
+    setTipo(null);
     navigation.navigate('Home')
-    let uid = usuario.uid;
-    let key = await firebase.database().ref('historico').child(uid).push().key;
-
-    await firebase.database().ref('historico').child(uid).child(key).set({
-      tipo: tipo,
-      valor: parseFloat(valor),
-      date: format(new Date(), 'dd/MM/yy')
-    })
-
-    let user = await firebase.database().ref('historico').child(uid);
-    await user.once('value').then((snapshot) => {
-      let saldo = parseFloat(snapshot.val().saldo);
-
-      tipo === 'despesa' ? saldo -= parseFloat(valor) : saldo += parseFloat(valor);
-
-      user.child('saldo').set(saldo);
-    });
     Keyboard.dismiss()
-    
+    movimetation(usuario, tipo, valor)
   }
 
   return (
