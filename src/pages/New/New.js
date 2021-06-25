@@ -47,7 +47,7 @@ const New = () => {
     setTipo(null);
     navigation.navigate('Home')
     Keyboard.dismiss()
-    movimetation(usuario, tipo, valor)
+    movimetation(usuario, tipo, parseFloat(valor))
   }
 
   return (

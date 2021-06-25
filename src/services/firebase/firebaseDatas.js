@@ -96,13 +96,13 @@ const movimetation = async (usuario, tipo, valor) => {
       date: format(new Date(), 'dd/MM/yy')
     })
 
-    let user = await firebase.database().ref('historico').child(uid);
+    let user = firebase.database().ref('users').child(uid);
     await user.once('value').then((snapshot) => {
       let saldo = parseFloat(snapshot.val().saldo);
 
       tipo === 'despesa' ? saldo -= parseFloat(valor) : saldo += parseFloat(valor);
 
-      user.child('saldo').set(saldo);
+      user.child('saldo').set(parseFloat(saldo));
     });
 }
 
